@@ -1,51 +1,59 @@
-import ConstactForm from 'components/ContactForm/ContactForm';
-import Filter from 'components/Filter/Filter';
-import ContactList from 'components/ContactList/ContactList';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectContacts,
-  selectLoading,
-  selectError,
-} from 'redux/contacts/selectors';
-import {
-  Container,
-  Overlay,
-  Title,
-  SecondOverlay,
-  SecondTitle,
-  ThirdTitle,
-} from './App.styles';
-import { fetchContacts } from 'redux/contacts/operations';
-import { useEffect } from 'react';
+import { useEffect, lazy } from 'react';
+import { useDispatch } from 'react-redux';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Loader from '../Loader/Loader';
+import Layout from '../Layout/Layout';
+import { PrivateRoute } from './PrivateRoute';
+import { PublicRoute } from './PublicRoute';
+import { refreshUser } from '../../redux/auth/operations';
+import useAuth from '../../hooks/UseAuth';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function App() {
+const HomePage = lazy(() => import('pages/Home'));
+const ContactsPage = lazy(() => import('pages/Contacts'));
+const LoginPage = lazy(() => import('pages/Login'));
+const RegisterPage = lazy(() => import('pages/Register'));
+
+function App() {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
-    <Container>
-      <Title>Phonebook</Title>
-      <Overlay>
-        <ConstactForm />
-      </Overlay>
-      <SecondOverlay>
-        <SecondTitle>Contacts</SecondTitle>
-        {contacts.length > 0 ? (
-          <>
-            <Filter />
-            <ContactList />
-          </>
-        ) : (
-          <ThirdTitle>No any contacts in phonebook</ThirdTitle>
-        )}
-        {isLoading && !error && <b>Loading...</b>}
-      </SecondOverlay>
-    </Container>
+  return isRefreshing ? (
+    <Loader />
+  ) : (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute
+                redirectTo="/contacts"
+                component={<RegisterPage />}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute redirectTo="/contacts" component={<LoginPage />} />
+            }
+          />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+            }
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
+export default App;
