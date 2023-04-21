@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logIn } from 'redux/auth/operations';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { logIn } from '../../redux/auth/operations';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -23,11 +22,7 @@ export const LoginForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     if (password === '' || email === '') {
-      Notify.warning(`Please fill in all the fields!`, {
-        background: '#eebf31',
-        fontSize: '16px',
-        width: '350px',
-      });
+      <p>Please fill in all the fields!</p>;
       return;
     }
     const form = e.currentTarget;
