@@ -2,7 +2,11 @@ import ConstactForm from 'components/ContactForm/ContactForm';
 import Filter from 'components/Filter/Filter';
 import ContactList from 'components/ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectLoading, selectError } from 'redux/selectors';
+import {
+  selectContacts,
+  selectLoading,
+  selectError,
+} from 'redux/contacts/selectors';
 import {
   Container,
   Overlay,
@@ -11,7 +15,7 @@ import {
   SecondTitle,
   ThirdTitle,
 } from './App.styles';
-import { fetchContacts } from 'redux/operations';
+import { fetchContacts } from 'redux/contacts/operations';
 import { useEffect } from 'react';
 
 export default function App() {
