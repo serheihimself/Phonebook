@@ -1,7 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectFilterValue } from 'redux/contacts/selectors';
-import { deleteContact } from 'redux/contacts/operations';
+import {
+  selectContacts,
+  selectFilterValue,
+} from '../../redux/contacts/selectors';
+import { deleteContact } from '../../redux/contacts/operations';
 import { Ul, Text, DeleteButton } from './ContactList.styles';
 
 export default function ContactList() {

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 const AuthNav = () => {
   return (
     <div>
-      <div className={css.link}>
+      <div>
         <NavLink
           className={({ isActive }) => (isActive ? 'active' : 'inactive')}
           to="/register"
@@ -11,7 +11,7 @@ const AuthNav = () => {
           Registration
         </NavLink>
       </div>
-      <div className={css.link}>
+      <div>
         <NavLink
           className={({ isActive }) => (isActive ? 'active' : 'inactive')}
           to="/login"

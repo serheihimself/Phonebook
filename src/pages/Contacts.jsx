@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from '../redux/contacts/operations';
 import { selectIsLoading, selectError } from '../redux/contacts/selectors';
 
-export default Contacts = () => {
+export default function Contacts() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
@@ -31,4 +31,4 @@ export default Contacts = () => {
       </div>
     </>
   );
-};
+}
