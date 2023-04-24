@@ -1,2 +1,0 @@
-(self.webpackChunkreact_homework_template=self.webpackChunkreact_homework_template||[]).push([[669],{4800:function(){},6669:function(e,n,t){"use strict";t.r(n),t.d(n,{default:function(){return i}});var r=t(3064),c=t(4800),o=t.n(c),s=t(184),u=function(){var e=(0,r.Z)();return(0,s.jsx)(s.Fragment,{children:(0,s.jsxs)("section",{children:[(0,s.jsx)("h1",{children:"Welcome to PhoneBook"}),!e&&(0,s.jsx)(o(),{})]})})};function i(){return(0,s.jsx)("div",{children:(0,s.jsx)(u,{})})}}}]);
-//# sourceMappingURL=669.7d5a8512.chunk.js.map
