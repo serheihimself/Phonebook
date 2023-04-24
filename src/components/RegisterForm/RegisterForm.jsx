@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/operations';
+import { Form, Label, Input, Button } from './RegisterForm.styles';
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -45,37 +46,37 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} autoComplete="off">
-      <label>
+    <Form onSubmit={handleSubmit} autoComplete="off">
+      <Label>
         Username
-        <input
+        <Input
           type="text"
           name="name"
           onChange={handleChange}
           placeholder="Enter your name"
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         Email
-        <input
+        <Input
           type="email"
           name="email"
           onChange={handleChange}
           placeholder="email@mail.com"
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         Password
-        <input
+        <Input
           type="password"
           name="password"
           onChange={handleChange}
           pattern="(?=.*\d).{7,}"
           placeholder="7 characters or more, please"
         />
-      </label>
-      <button type="submit">Registration</button>
-    </form>
+      </Label>
+      <Button type="submit">Registration</Button>
+    </Form>
   );
 };
 

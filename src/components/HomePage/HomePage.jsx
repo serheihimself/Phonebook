@@ -1,15 +1,16 @@
 import useAuth from '../../hooks/UseAuth';
 import HomeAuthNav from '../HomeAuthNav/HomeAuthNav';
+import { Section, Title } from './HomePage.styles';
 
 const HomePage = () => {
   const isLoggedIn = useAuth();
 
   return (
     <>
-      <section>
-        <h1>Welcome to PhoneBook</h1>
+      <Section>
+        <Title>Welcome to PhoneBook</Title>
         {!isLoggedIn && <HomeAuthNav />}
-      </section>
+      </Section>
     </>
   );
 };

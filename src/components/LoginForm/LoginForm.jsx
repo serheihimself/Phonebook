@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/auth/operations';
+import { Form, Label, Input, Button } from './LoginForm.styles';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -39,20 +40,20 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} autoComplete="on">
-      <label>
+    <Form onSubmit={handleSubmit} autoComplete="on">
+      <Label>
         Email
-        <input
+        <Input
           type="email"
           name="email"
           value={email}
           onChange={handleChange}
           placeholder="Enter your email"
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         Password
-        <input
+        <Input
           type="password"
           name="password"
           value={password}
@@ -60,9 +61,9 @@ const LoginForm = () => {
           onChange={handleChange}
           placeholder="Enter your password"
         />
-      </label>
-      <button type="submit">LogIn</button>
-    </form>
+      </Label>
+      <Button type="submit">LogIn</Button>
+    </Form>
   );
 };
 

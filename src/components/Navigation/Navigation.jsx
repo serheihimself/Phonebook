@@ -7,21 +7,13 @@ const Navigation = () => {
   return (
     <nav>
       <div>
-        <NavLink
-          className={({ isActive }) => (isActive ? 'active' : 'inactive')}
-          to="/"
-        >
+        <NavLink to="/" style={{ color: 'white', fontWeight: '700' }}>
           Home
         </NavLink>
       </div>
       {isLoggedIn && (
         <div>
-          <NavLink
-            className={({ isActive }) => (isActive ? 'active' : 'inactive')}
-            to="/contacts"
-          >
-            Contacts
-          </NavLink>
+          <NavLink to="/contacts">Contacts</NavLink>
         </div>
       )}
     </nav>
