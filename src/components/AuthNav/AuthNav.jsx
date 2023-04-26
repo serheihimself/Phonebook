@@ -1,21 +1,20 @@
-import { NavLink } from 'react-router-dom';
-import { NavBox, NavDiv } from './AuthNav.styles';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { LinkStyled } from '../LinkStyled';
 
-const AuthNav = () => {
+export const AuthNav = () => {
   return (
-    <NavBox>
-      <NavDiv>
-        <NavLink to="/register" style={{ color: 'white', fontWeight: '700' }}>
-          Registration
-        </NavLink>
-      </NavDiv>
-      <NavDiv>
-        <NavLink to="/login" style={{ color: 'white', fontWeight: '700' }}>
+    <Box component="nav" sx={{ flexWrap: 'wrap', display: { xs: 'flex' } }}>
+      <LinkStyled to="/register">
+        <Typography variant="h6" sx={{ mr: 1 }}>
+          Register
+        </Typography>
+      </LinkStyled>
+      <LinkStyled to="/login">
+        <Typography variant="h6" sx={{ mr: 1 }}>
           LogIn
-        </NavLink>
-      </NavDiv>
-    </NavBox>
+        </Typography>
+      </LinkStyled>
+    </Box>
   );
 };
-
-export default AuthNav;

@@ -1,16 +1,25 @@
-import AppBar from '../AppBar/AppBar';
-import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Header, Footer } from 'components';
 
-const Layout = () => {
+import { CssBaseline } from '@mui/material';
+import { Container } from '@mui/material';
+
+export function Layout() {
   return (
     <>
-      <AppBar />
-      <Suspense fallback={<div>Loading ...</div>}>
-        <Outlet />
-      </Suspense>
+      <CssBaseline />
+      <Header />
+      {/* Container to stick Footer at the bottom of page */}
+      <Container
+        maxWidth="sm"
+        sx={{ minHeight: '100vh', pt: 9.5, mb: -9, pb: 4 }}
+      >
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
+      </Container>
+      <Footer />
     </>
   );
-};
-
-export default Layout;
+}

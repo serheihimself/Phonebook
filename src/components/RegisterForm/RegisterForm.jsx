@@ -1,83 +1,76 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { register } from '../../redux/auth/operations';
-import { Form, Label, Input, Button } from './RegisterForm.styles';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { register } from 'redux/auth/operations';
 
-export const RegisterForm = () => {
+import { TextField } from 'formik-mui';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+
+const SubmitSchema = Yup.object().shape({
+  name: Yup.string().required('Enter contact name'),
+  email: Yup.string().nullable().email().required('Enter email'),
+  password: Yup.string()
+    .min(8 | 'Password must be at least 8 characters long')
+    .max(
+      16 | 'The maximum length of the password must not exceed 16 characters'
+    )
+    .required('Enter password'),
+});
+
+export function RegisterForm() {
   const dispatch = useDispatch();
-  const [name, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleChange = ({ target: { name, value } }) => {
-    switch (name) {
-      case 'name':
-        return setUserName(value);
-      case 'email':
-        return setEmail(value);
-      case 'password':
-        return setPassword(value);
-      default:
-        return;
-    }
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    if (name === '' || password === '' || email === '') {
-      <p>Please fill in all fields!</p>;
-      return;
-    }
-    const form = e.currentTarget;
-
-    dispatch(
-      register({
-        name: form.elements.name.value,
-        email: form.elements.email.value,
-        password: form.elements.password.value,
-      })
-    );
-    setUserName('');
-    setEmail('');
-    setPassword('');
-    form.reset();
-  };
-
   return (
-    <Form onSubmit={handleSubmit} autoComplete="off">
-      <Label>
-        Username
-        <Input
-          type="text"
-          name="name"
-          onChange={handleChange}
-          placeholder="Enter your name"
-        />
-      </Label>
-      <Label>
-        Email
-        <Input
-          type="email"
-          name="email"
-          onChange={handleChange}
-          placeholder="email@mail.com"
-        />
-      </Label>
-      <Label>
-        Password
-        <Input
-          type="password"
-          name="password"
-          onChange={handleChange}
-          pattern="(?=.*\d).{7,}"
-          placeholder="7 characters or more, please"
-        />
-      </Label>
-      <Button type="submit">Registration</Button>
-    </Form>
+    <div>
+      <Formik
+        initialValues={{
+          name: '',
+          email: '',
+          password: '',
+        }}
+        validationSchema={SubmitSchema}
+        onSubmit={(values, { resetForm }) => {
+          dispatch(register(values));
+          resetForm();
+        }}
+      >
+        <Form autoComplete="off">
+          <Box marginY={1} sx={{ width: 350 }}>
+            <Field
+              component={TextField}
+              type="text"
+              label="User name*"
+              name="name"
+              size="small"
+              fullWidth
+            />
+          </Box>
+          <Box marginY={1} sx={{ width: 350 }}>
+            <Field
+              component={TextField}
+              type="email"
+              label="Email*"
+              name="email"
+              size="small"
+              fullWidth
+            />
+          </Box>
+          <Box marginY={1} sx={{ width: 350 }}>
+            <Field
+              component={TextField}
+              type="password"
+              label="Password*"
+              name="password"
+              size="small"
+              fullWidth
+            />
+          </Box>
+          <Button variant="contained" type="submit" fullWidth>
+            Register
+          </Button>
+        </Form>
+      </Formik>
+    </div>
   );
-};
-
-export default RegisterForm;
+}

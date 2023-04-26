@@ -1,70 +1,65 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logIn } from '../../redux/auth/operations';
-import { Form, Label, Input, Button } from './LoginForm.styles';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { logIn } from 'redux/auth/operations';
 
-const LoginForm = () => {
+import { TextField } from 'formik-mui';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+
+const SubmitSchema = Yup.object().shape({
+  email: Yup.string().nullable().email().required('Enter email'),
+  password: Yup.string()
+    .min(8 | 'Password must be at least 8 characters long')
+    .max(
+      16 | 'The maximum length of the password must not exceed 16 characters'
+    )
+    .required('Enter password'),
+});
+
+export function LoginForm() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleChange = ({ target: { name, value } }) => {
-    switch (name) {
-      case 'email':
-        return setEmail(value);
-      case 'password':
-        return setPassword(value);
-      default:
-        return;
-    }
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (password === '' || email === '') {
-      <p>Please fill in all the fields!</p>;
-      return;
-    }
-    const form = e.currentTarget;
-    dispatch(
-      logIn({
-        email: form.elements.email.value,
-        password: form.elements.password.value,
-      })
-    );
-
-    setEmail('');
-    setPassword('');
-    form.reset();
-  };
 
   return (
-    <Form onSubmit={handleSubmit} autoComplete="on">
-      <Label>
-        Email
-        <Input
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleChange}
-          placeholder="Enter your email"
-        />
-      </Label>
-      <Label>
-        Password
-        <Input
-          type="password"
-          name="password"
-          value={password}
-          autoComplete="current-password"
-          onChange={handleChange}
-          placeholder="Enter your password"
-        />
-      </Label>
-      <Button type="submit">LogIn</Button>
-    </Form>
+    <div>
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+        }}
+        validationSchema={SubmitSchema}
+        onSubmit={(values, { resetForm }) => {
+          dispatch(logIn(values));
+          resetForm();
+        }}
+      >
+        <Form autoComplete="off">
+          <Box marginY={1} sx={{ width: 350 }}>
+            <Field
+              component={TextField}
+              type="email"
+              label="Email*"
+              name="email"
+              size="small"
+              fullWidth
+            />
+          </Box>
+          <Box marginY={1} sx={{ width: 350 }}>
+            <Field
+              component={TextField}
+              type="password"
+              label="Password*"
+              name="password"
+              size="small"
+              fullWidth
+            />
+          </Box>
+          <Button variant="contained" type="submit" fullWidth>
+            Log in
+          </Button>
+        </Form>
+      </Formik>
+    </div>
   );
-};
-
-export default LoginForm;
+}
